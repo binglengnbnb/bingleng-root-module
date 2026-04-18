@@ -30,15 +30,15 @@ jobs:
 
         echo "=== Build completed ==="
 
-        # Create output directory
+        # 创建输出目录
         mkdir -p /github/workspace/out
 
-        # Copy and rename
+        # 复制并重命名
         cp bingleng.ko "/github/workspace/out/android14-6.1_bingleng.ko"
 
         ls -lh "/github/workspace/out/"
 
-        # Strip debug info
+        # 剥离调试信息
         llvm-strip -d "/github/workspace/out/android14-6.1_bingleng.ko"
 
         echo "=== Final size after stripping: ==="

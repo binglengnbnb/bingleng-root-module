@@ -1,0 +1,9 @@
+# Windows
+Thumbs.db
+*.bat
+*.cmd
+
+# Temporary files
+*.tmp
+*.log
+*.swp
