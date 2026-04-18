@@ -1,0 +1,6 @@
+config BINGLENG
+	tristate "BingLeng - Kernel-level Root Manager"
+	help
+	  BingLeng is a kernel-level root manager for Android devices,
+	  supporting GKI 2.0 and later. It provides superuser access
+	  with SELinux compatibility and module hiding features.

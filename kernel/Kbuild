@@ -1,0 +1,16 @@
+# BingLeng Kernel Module Kbuild
+
+obj-$(CONFIG_BINGLENG) += bingleng.o
+
+bingleng-y := \
+	bingleng_main.o \
+	utils.o \
+	kallsyms.o \
+	token_verify.o \
+	gki_compat.o \
+	arm64_hook.o \
+	syscall_hook.o \
+	priv_escalation.o \
+	hide.o
+
+ccflags-y := -I$(src)/include -I$(src)

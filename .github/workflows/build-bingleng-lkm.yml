@@ -1,0 +1,51 @@
+name: Build BingLeng Kernel Module
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-bingleng-ko:
+    name: Build bingleng.ko for android14-6.1
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ylarod/ddk-min:android14-6.1-20260313
+      options: --privileged
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v5
+
+    - name: Build bingleng.ko
+      run: |
+        git config --global --add safe.directory /__w/bingleng-tb321fu/bingleng-tb321fu
+
+        cd kernel
+
+        echo "=== Building bingleng.ko for KMI: android14-6.1 ==="
+
+        CONFIG_BINGLENG=m CC=clang make
+
+        echo "=== Build completed ==="
+
+        # Create output directory
+        mkdir -p /github/workspace/out
+
+        # Copy and rename
+        cp bingleng.ko "/github/workspace/out/android14-6.1_bingleng.ko"
+
+        ls -lh "/github/workspace/out/"
+
+        # Strip debug info
+        llvm-strip -d "/github/workspace/out/android14-6.1_bingleng.ko"
+
+        echo "=== Final size after stripping: ==="
+        ls -lh "/github/workspace/out/"
+
+    - name: Upload bingleng.ko artifact
+      uses: actions/upload-artifact@v5
+      with:
+        name: android14-6.1-lkm
+        path: /github/workspace/out/android14-6.1_bingleng.ko
